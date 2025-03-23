@@ -1,0 +1,83 @@
+\documentclass[a6paper]{ltjsarticle}
+\usepackage[top=10truemm,bottom=10truemm,left=7truemm,right=7truemm]{geometry}
+\usepackage{color}
+\usepackage{tikz}
+\usepackage{chemfig}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{ascmac}
+\usepackage{multicol}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{etoolbox}
+\usepackage{ulem}
+\usepackage{eso-pic}
+
+\usepackage{luatexja-otf}
+\usepackage[no-math]{luatexja-fontspec}
+
+\setmainjfont{Hiragino Sans}[Ligatures=TeX, Kern=On]
+% \setsansjfont{G-OTF Jo Gothic BBB ProN}[BoldFont={G-OTF Jo Futo Go B101 ProN}]
+\setmainfont{Helvetica}
+% \setsansfont{Helvetica}[BoldFont={G-OTF Jo Futo Go B101 ProN}]
+
+\usetikzlibrary{calc}
+\usetikzlibrary{matrix}
+
+\newcommand{\cell}[1]{%
+  \begin{minipage}[t][0.25\dimexpr\paperheight - 5cm\relax][t]{0.5\dimexpr\paperwidth -12pt\relax}
+    #1
+  \end{minipage}
+}
+
+
+\AddToShipoutPictureFG{
+  \begin{tikzpicture}[remember picture, overlay, ampersand replacement=\&]
+    \draw[line width=3mm,black]
+      (current page.south west) rectangle (current page.north east);
+
+    \draw[line width=1mm,black]
+      ($ (current page.north west) + (0,-3cm) $) -- ($ (current page.north east) + (0,-3cm) $);
+    \draw[line width=1mm,black]
+      ($ (current page.south west) + (0,2cm) $) -- ($ (current page.south east) + (0,2cm) $);
+
+    \draw[line width=0.5mm,black]
+      ($ (current page.north) + (0,-3cm) $) -- ($ (current page.south) + (0,2cm) $);
+
+    \matrix (matrix) [matrix of nodes, nodes={anchor=north west, align=left, inner sep=8pt, draw},column sep=0pt, row sep=0pt, inner sep=0pt, anchor=north west]
+      at ($ (current page.north west) + (0,-3cm) $)
+      {
+        \cell{塩焼きそば} \& \cell{\shortstack[l]{クレープ\\（チョコバナナ）}} \\
+        \cell{焼き鳥} \& \cell{\shortstack[l]{クレープ\\（クッキー＆クリーム）}} \\
+        \cell{餃子} \& \cell{\shortstack[l]{クレープ\\（和風ぜんざい）}}\\
+        \cell{たこ焼き} \& \cell{ケバブ} \\
+      };
+    \node[anchor=north west, black, inner xsep=8pt, inner ysep=6pt]
+      at ($ (current page.south west) + (0,2cm)$)
+      {備考};
+  \end{tikzpicture}
+}
+
+\pagestyle{empty}
+
+\newcommand{\stamp}[2]{%
+  \begin{tikzpicture}[baseline=(A.base),font=\sffamily]
+    \node[draw=#1, rectangle, rounded corners=2pt,
+          text=#1, solid,
+          fill=#1!10!white,
+          line width=.4pt, inner sep=1pt, outer sep=0pt
+          ] (A) {\bfseries\small #2};
+  \end{tikzpicture}%
+}
+
+\pagestyle{empty}
+
+\begin{document}
+\begin{center}
+  {\LARGE 00000}
+\end{center}
+\newpage
+\begin{center}
+  {\LARGE 00001}
+\end{center}
+\end{document}
