@@ -18,14 +18,14 @@
 
 \setmainjfont{Hiragino Sans}[Ligatures=TeX, Kern=On]
 % \setsansjfont{G-OTF Jo Gothic BBB ProN}[BoldFont={G-OTF Jo Futo Go B101 ProN}]
-\setmainfont{Helvetica}
+\setmainfont{Digital-7}
 % \setsansfont{Helvetica}[BoldFont={G-OTF Jo Futo Go B101 ProN}]
 
 \usetikzlibrary{calc}
 \usetikzlibrary{matrix}
 
 \newcommand{\cell}[1]{%
-  \begin{minipage}[t][0.25\dimexpr\paperheight - 5cm\relax][t]{0.5\dimexpr\paperwidth -12pt\relax}
+  \begin{minipage}[t][0.25\dimexpr\paperheight - 5cm\relax][t]{0.5\paperwidth}
     #1
   \end{minipage}
 }
@@ -44,12 +44,12 @@
     \draw[line width=0.5mm,black]
       ($ (current page.north) + (0,-3cm) $) -- ($ (current page.south) + (0,2cm) $);
 
-    \matrix (matrix) [matrix of nodes, nodes={anchor=north west, align=left, inner sep=8pt, draw},column sep=0pt, row sep=0pt, inner sep=0pt, anchor=north west]
+    \matrix (matrix) [matrix of nodes, nodes={anchor=north west, align=left, inner sep=0pt, text width=0.5\paperwidth, draw},column sep=0pt, row sep=0pt, inner sep=0pt, anchor=north west]
       at ($ (current page.north west) + (0,-3cm) $)
       {
-        \cell{塩焼きそば} \& \cell{\shortstack[l]{クレープ\\（チョコバナナ）}} \\
-        \cell{焼き鳥} \& \cell{\shortstack[l]{クレープ\\（クッキー＆クリーム）}} \\
-        \cell{餃子} \& \cell{\shortstack[l]{クレープ\\（和風ぜんざい）}}\\
+        \cell{塩焼きそば} \& \cell{クレープ\\（チョコバナナ）} \\
+        \cell{焼き鳥} \& \cell{クレープ\\（クッキー＆クリーム）} \\
+        \cell{餃子} \& \cell{クレープ\\（和風ぜんざい）}\\
         \cell{たこ焼き} \& \cell{ケバブ} \\
       };
     \node[anchor=north west, black, inner xsep=8pt, inner ysep=6pt]
