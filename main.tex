@@ -17,7 +17,7 @@
 \usepackage{luatexja-otf}
 \usepackage[no-math]{luatexja-fontspec}
 
-\setmainjfont{Hiragino Sans}[Ligatures=TeX, Kern=On]
+\setmainjfont{Gen Jyuu Gothic}[Ligatures=TeX, Kern=On]
 % \setsansjfont{G-OTF Jo Gothic BBB ProN}[BoldFont={G-OTF Jo Futo Go B101 ProN}]
 \setmainfont{Digital-7 Mono}
 % \setsansfont{Helvetica}[BoldFont={G-OTF Jo Futo Go B101 ProN}]
@@ -39,7 +39,7 @@
 
     \node at ($ (current page.north) + (0,-1.5cm) $) {\fontsize{60pt}{50pt}\selectfont \padzeroes[5]{\decimal{K}}};
 
-    \node[draw, rectangle, text=gray, line width=.5mm, inner sep= 10pt] at ($ (current page.north west) + (1.5cm,-1.5cm) $) {会計印};
+    \node[draw, rectangle, text=gray, line width=.5mm, inner sep= 10pt, dashed] at ($ (current page.north west) + (1.5cm,-1.5cm) $) {会計印};
 
     \draw[line width=1mm,black]
       ($ (current page.north west) + (0,-3cm) $) -- ($ (current page.north east) + (0,-3cm) $);
@@ -78,7 +78,7 @@
 \newcounter{K}
 
 \begin{document}
-\fontsize{11pt}{11pt}\selectfont
+\fontsize{12pt}{12pt}\selectfont
 \setcounter{K}{1}
 \loop\ifnum\value{K}<10
   \quad
