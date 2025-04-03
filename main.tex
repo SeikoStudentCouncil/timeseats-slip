@@ -13,6 +13,7 @@
 \usepackage{ulem}
 \usepackage{eso-pic}
 \usepackage{fmtcount}
+\usepackage{luacode}
 
 \usepackage{luatexja-otf}
 \usepackage[no-math]{luatexja-fontspec}
@@ -24,6 +25,45 @@
 
 \usetikzlibrary{calc}
 \usetikzlibrary{matrix}
+
+% Lua側の関数定義
+\begin{luacode*}
+  function generateCheckDigit(number)
+    local str = string.format("%05d", number)
+    local digits = {}
+
+    for i = 1, #str do
+      digits[i] = tonumber(str:sub(i,i))
+    end
+
+    local rev = {}
+    for i = #digits, 1, -1 do
+      rev[#digits - i + 1] = digits[i]
+    end
+    
+    local sum = 0
+    for i = 1, #rev do
+      local n = rev[i]
+
+      if ((i-1) % 2) == 0 then
+        n = n * 2
+        if n > 9 then n = n - 9 end
+      end
+      sum = sum + n
+    end
+    
+    local checkDigit = (10 - (sum % 10)) % 10
+    return checkDigit
+  end
+\end{luacode*}
+  
+  \newcommand{\checkdigit}[1]{%
+    \directlua{%
+      local num = tonumber("#1")
+      local cd = generateCheckDigit(num)
+      tex.print(cd)
+    }%
+  }
 
 \newcommand{\cell}[1]{%
   \begin{minipage}[t][\dimexpr(\paperheight - 5cm)/4 - 16pt\relax][t]{\dimexpr0.5\paperwidth -16pt\relax}
@@ -37,9 +77,9 @@
     \draw[line width=3mm,black]
       (current page.south west) rectangle (current page.north east);
 
-    \node at ($ (current page.north) + (0,-1.5cm) $) {\fontsize{60pt}{50pt}\selectfont \padzeroes[5]{\decimal{K}}};
+    \node at ($ (current page.north) + (0,-1.5cm) $) {\fontsize{60pt}{50pt}\selectfont \padzeroes[5]{\decimal{K}}\checkdigit{\theK}};
 
-    \node[draw, rectangle, text=gray, line width=.5mm, inner sep= 10pt, dashed] at ($ (current page.north west) + (1.5cm,-1.5cm) $) {会計印};
+    \node[draw, circle, text=gray, line width=.5mm, inner sep= 10pt, dashed] at ($ (current page.north west) + (1.5cm,-1.5cm) $) {印};
 
     \draw[line width=1mm,black]
       ($ (current page.north west) + (0,-3cm) $) -- ($ (current page.north east) + (0,-3cm) $);
@@ -60,6 +100,8 @@
     \node[anchor=north west, black, inner xsep=8pt, inner ysep=6pt]
       at ($ (current page.south west) + (0,2cm)$)
       {備考};
+
+    \node at ($(current page.south east) + (-1cm, 1cm)$) {\includegraphics[width=2cm]{slogan.pdf}};
   \end{tikzpicture}
 }
 
@@ -80,7 +122,7 @@
 \begin{document}
 \fontsize{12pt}{12pt}\selectfont
 \setcounter{K}{1}
-\loop\ifnum\value{K}<10
+\loop\ifnum\value{K}<100
   \quad
   \newpage
   \stepcounter{K}
