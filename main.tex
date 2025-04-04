@@ -65,7 +65,7 @@
   }
 
 \newcommand{\cell}[1]{%
-  \begin{minipage}[b][\dimexpr(\paperheight - 5.1cm)/4 - 10pt\relax][t]{\dimexpr0.4\paperwidth\relax}
+  \begin{minipage}[t]{\dimexpr0.4\paperwidth\relax}
     #1
   \end{minipage}
 }
@@ -93,7 +93,7 @@
     \draw[line width=0.5mm, black, dashed]
       ($ (current page.north east) + (-2cm,-3cm) $) -- ($ (current page.south east) + (-2cm,2cm) $);
 
-    \matrix (matrix) [matrix of nodes, nodes={anchor=north west, align=left, inner sep=5pt, text width=\dimexpr0.5\paperwidth - 10pt -2mm\relax, draw},column sep=0pt, row sep=0pt, inner sep=0pt, outer sep=0pt, anchor=north west]
+    \matrix (matrix) [matrix of nodes, nodes={anchor=north west, align=left, inner sep=5pt, text width=\dimexpr0.5\paperwidth - 10pt -2mm\relax, minimum height=\dimexpr(\paperheight - 5.1cm)/4\relax, draw},column sep=0pt, row sep=0pt, inner sep=0pt, outer sep=0pt, anchor=north west]
       at ($ (current page.north west) + (2mm,-3.05cm) $)
       {
         \cell{塩焼きそば} \& \cell{クレープ\\{\small （チョコバナナ）}} \\
@@ -126,7 +126,7 @@
 \begin{document}
 \fontsize{13pt}{10pt}\selectfont
 \setcounter{K}{1}
-\loop\ifnum\value{K}<10
+\loop\ifnum\value{K}<1000
   \quad
   \newpage
   \stepcounter{K}
