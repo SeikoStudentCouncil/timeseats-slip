@@ -89,7 +89,7 @@
       ($ (current page.north) + (0,-3cm) $) -- ($ (current page.south) + (0,2cm) $);
 
     \draw[line width=0.5mm, black, dashed]
-      ($ (current page.north) + (-2cm,-3cm) $) -- ($ (current page.south) + (-2cm,2cm) $);
+      ($ (current page.north) + (-1.77cm,-3cm) $) -- ($ (current page.south) + (-1.77cm,2cm) $);
     \draw[line width=0.5mm, black, dashed]
       ($ (current page.north east) + (-2cm,-3cm) $) -- ($ (current page.south east) + (-2cm,2cm) $);
 
@@ -101,9 +101,9 @@
         \cell{餃子} \& \cell{クレープ\\{\small （和風ぜんざい）}}\\
         \cell{たこ焼き} \& \cell{ケバブ} \\
       };
-    \node[anchor=north west, black, inner xsep=8pt, inner ysep=6pt]
+    \node[anchor=north west, black, inner xsep=8pt, inner ysep=4pt]
       at ($ (current page.south west) + (0,2cm)$)
-      {備考};
+      {{\normalsize 備考}};
 
     \node at ($(current page.south east) + (-1cm, 1cm)$) {\includegraphics[width=2cm]{slogan.pdf}};
   \end{tikzpicture}
@@ -126,7 +126,7 @@
 \begin{document}
 \fontsize{13pt}{10pt}\selectfont
 \setcounter{K}{1}
-\loop\ifnum\value{K}<10
+\loop\ifnum\value{K}<5001
   \quad
   \newpage
   \stepcounter{K}
