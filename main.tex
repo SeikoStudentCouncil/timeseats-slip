@@ -1,0 +1,125 @@
+\documentclass[a6paper]{ltjsarticle}
+\usepackage{tikz}
+\usepackage{fancyhdr}
+\usepackage{eso-pic}
+\usepackage{fmtcount}
+\usepackage{luacode}
+
+\usepackage{luatexja-otf}
+\usepackage[no-math]{luatexja-fontspec}
+
+\setmainjfont{Gen Jyuu Gothic}[Ligatures=TeX, Kern=On]
+% \setsansjfont{G-OTF Jo Gothic BBB ProN}[BoldFont={G-OTF Jo Futo Go B101 ProN}]
+\setmainfont{Digital-7 Mono}
+% \setsansfont{Helvetica}[BoldFont={G-OTF Jo Futo Go B101 ProN}]
+
+\usetikzlibrary{calc}
+\usetikzlibrary{matrix}
+
+\begin{luacode*}
+  function generateCheckDigit(number)
+    local str = string.format("%05d", number)
+    local digits = {}
+
+    for i = 1, #str do
+      digits[i] = tonumber(str:sub(i,i))
+    end
+
+    local rev = {}
+    for i = #digits, 1, -1 do
+      rev[#digits - i + 1] = digits[i]
+    end
+    
+    local sum = 0
+    for i = 1, #rev do
+      local n = rev[i]
+
+      if ((i-1) % 2) == 0 then
+        n = n * 2
+        if n > 9 then n = n - 9 end
+      end
+      sum = sum + n
+    end
+    
+    local checkDigit = (10 - (sum % 10)) % 10
+    return checkDigit
+  end
+\end{luacode*}
+  
+  \newcommand{\checkdigit}[1]{%
+    \directlua{%
+      local num = tonumber("#1")
+      local cd = generateCheckDigit(num)
+      tex.print(cd)
+    }%
+  }
+
+\newcommand{\cell}[1]{%
+  \begin{minipage}[t]{\dimexpr0.4\paperwidth\relax}
+    #1
+  \end{minipage}
+}
+
+
+\AddToShipoutPictureFG{
+  \begin{tikzpicture}[remember picture, overlay, ampersand replacement=\&]
+    \draw[line width=4mm, black]
+      (current page.south west) rectangle (current page.north east);
+
+    \node[inner sep=0pt] (id) at ($ (current page.north) + (0,-1.5cm) $) {\fontsize{60pt}{50pt}\selectfont \padzeroes[5]{\decimal{K}}\checkdigit{\theK}};
+
+    \node[draw, circle, text=gray, line width=.5mm, minimum size=14mm, dashed] at ($($ (current page.north east) + (-2mm,-1.5cm)$) !0.5! (id.east)$) {印};
+
+    \draw[line width=1mm, black]
+      ($ (current page.north west) + (0,-3cm) $) -- ($ (current page.north east) + (0,-3cm) $);
+    \draw[line width=1mm, black]
+      ($ (current page.south west) + (0,2cm) $) -- ($ (current page.south east) + (0,2cm) $);
+
+    \draw[line width=0.6mm, black]
+      ($ (current page.north) + (0,-3cm) $) -- ($ (current page.south) + (0,2cm) $);
+
+    \draw[line width=0.5mm, black, dashed]
+      ($ (current page.north) + (-1.77cm,-3cm) $) -- ($ (current page.south) + (-1.77cm,2cm) $);
+    \draw[line width=0.5mm, black, dashed]
+      ($ (current page.north east) + (-2cm,-3cm) $) -- ($ (current page.south east) + (-2cm,2cm) $);
+
+    \matrix (matrix) [matrix of nodes, nodes={anchor=north west, align=left, inner sep=5pt, text width=\dimexpr0.5\paperwidth - 10pt -2mm\relax, minimum height=\dimexpr(\paperheight - 5.1cm)/4\relax, draw},column sep=0pt, row sep=0pt, inner sep=0pt, outer sep=0pt, anchor=north west]
+      at ($ (current page.north west) + (2mm,-3.05cm) $)
+      {
+        \cell{塩焼きそば} \& \cell{クレープ\\{\small （チョコバナナ）}} \\
+        \cell{焼き鳥} \& \cell{クレープ\\{\small （クッキー＆クリーム）}} \\
+        \cell{餃子} \& \cell{クレープ\\{\small （和風ぜんざい）}}\\
+        \cell{たこ焼き} \& \cell{ケバブ} \\
+      };
+    \node[anchor=north west, black, inner xsep=8pt, inner ysep=4pt]
+      at ($ (current page.south west) + (0,2cm)$)
+      {{\normalsize 備考}};
+
+    \node at ($(current page.south east) + (-1cm, 1cm)$) {\includegraphics[width=2cm]{slogan.pdf}};
+  \end{tikzpicture}
+}
+
+\pagestyle{empty}
+
+\newcommand{\stamp}[2]{%
+  \begin{tikzpicture}[baseline=(A.base),font=\sffamily]
+    \node[draw=#1, rectangle, rounded corners=2pt,
+          text=#1, solid,
+          fill=#1!10!white,
+          line width=.4pt, inner sep=1pt, outer sep=0pt
+          ] (A) {\bfseries\small #2};
+  \end{tikzpicture}%
+}
+
+\newcounter{K}
+
+\begin{document}
+\fontsize{13pt}{10pt}\selectfont
+\setcounter{K}{1}
+\loop\ifnum\value{K}<101
+  \quad
+  \newpage
+  \stepcounter{K}
+\repeat
+
+\end{document}
